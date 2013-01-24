@@ -1,0 +1,60 @@
+#!/bin/bash
+
+PKA_HOME="/Users/sck/Code/pka"
+
+source ${PKA_HOME}/functions.sh
+
+sanity_check
+
+case "$1" in
+makekeystore)
+	makekeystore
+	;;
+extract)
+	extract "$2"
+	;;
+install)
+	install
+	;;
+modinstall)
+	modinstall
+	;;
+addmprof)
+	not_ready
+	;;
+addbbprof)
+	not_ready
+	;;
+addvalprint)
+	not_ready
+	;;
+getmprof)
+	get_mprof
+	read_mprof
+	;;
+viewmprof)
+	read_mprof
+	;;
+reset)
+	reset
+	;;
+backup)
+	backup "$2"
+	;;
+restore)
+	restore "$2"
+	;;
+clean)
+	clean
+	;;
+cleanbackups)
+	cleanbackups
+	;;
+nuke)
+	clean
+	cleanbackups
+	;;
+*)
+	echo "Command not recognised."
+	;;
+esac

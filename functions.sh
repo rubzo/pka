@@ -5,10 +5,19 @@ function sanity_check {
 		echo "You don't have apktool installed!"
 		exit 1
 	fi
+	if [ "`which adb`" == "" ]; then
+		echo "You don't have adb installed - install the Android SDK!"
+		exit 1
+	fi
 	if [ "`which keytool`" == "" ]; then
 		echo "You don't have keytool installed - install the Android SDK!"
 		exit 1
 	fi
+	if [ "`adb devices | grep -v List | grep device`" == "" ]; then
+		echo "No devices are currently attached to adb!"
+		exit 1
+	fi
+	
 	echo "(Making sure adb root is running...)"
 	adb root > /dev/null
 }
@@ -21,6 +30,10 @@ function not_ready {
 function makekeystore {
 	keytool -genkey -v -keystore ${PKA_HOME}/pka.keystore -alias pka_alias -keyalg RSA -keysize 2048 -validity 10000
 	echo "Generated keystore."
+}
+
+function listapk {
+	adb shell ls /data/app | dos2unix
 }
 
 function extract {
@@ -118,6 +131,33 @@ function modinstall {
 	adb install new_$APK
 
 	echo "APK installed."
+}
+
+function addmprof {
+	if [ "$1" == "" ]; then
+		echo "You need to provide an .json info file to use this!"
+		exit 1
+	fi
+
+	python $PKA_HOME/smali_mod.py addmprof "$1"	
+}
+
+function addbbprof {
+	if [ "$1" == "" ]; then
+		echo "You need to provide an .json info file to use this!"
+		exit 1
+	fi
+
+	python $PKA_HOME/smali_mod.py addbbprof "$1"	
+}
+
+function addvalprint {
+	if [ "$1" == "" ]; then
+		echo "You need to provide an .json info file to use this!"
+		exit 1
+	fi
+
+	python $PKA_HOME/smali_mod.py addvalprint "$1"	
 }
 
 function get_mprof {

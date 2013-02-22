@@ -10,6 +10,9 @@ case "$1" in
 makekeystore)
 	makekeystore
 	;;
+listapk)
+	listapk
+	;;
 extract)
 	extract "$2"
 	;;
@@ -20,13 +23,13 @@ modinstall)
 	modinstall
 	;;
 addmprof)
-	not_ready
+	addmprof "$2"
 	;;
 addbbprof)
-	not_ready
+	addbbprof "$2"
 	;;
 addvalprint)
-	not_ready
+	addvalprint "$2"
 	;;
 getmprof)
 	get_mprof
@@ -34,6 +37,12 @@ getmprof)
 	;;
 viewmprof)
 	read_mprof
+	;;
+getbbprof)
+	not_ready
+	;;
+viewbbprof)
+	not_ready
 	;;
 reset)
 	reset
